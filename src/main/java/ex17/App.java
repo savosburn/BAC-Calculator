@@ -22,6 +22,13 @@ public class App {
         // input
         double weight = myApp.readWeight();
         int gender = myApp.readGender();
+
+        // User should only enter 0 or 1
+        while (gender < 2 || gender > 3) {
+            System.out.print("Must enter 2 for female or 3 for male:  ");
+            gender = myApp.readGender();
+        }
+
         double alcohol = myApp.readAlcohol();
         double time = myApp.readTime();
 
@@ -35,47 +42,58 @@ public class App {
 
     public double readWeight() {
         System.out.print("How much do you weigh? ");
+
+        // User can only enter numbers
+        while (!in.hasNextDouble()) {
+            System.out.print("Invalid weight. Enter again: ");
+            in.next();
+        }
+
         return in.nextDouble();
     }
 
     public int readGender() {
-        int validInput = 1;
-        int gender = 3;
+        System.out.print("What is your gender?\nEnter a number: Female = 2, Male = 3 ");
 
-        while (validInput > 0) {
-            System.out.print("What is your gender?\nEnter a number: Female = 0, Male = 1 ");
-            gender = in.nextInt();
-
-            // Make sure it's a valid gender
-            if (gender == 1 || gender == 0) {
-                break;
-            } else {
-
-                System.out.print("Invalid option. Choose again.\n");
-                validInput++;
-            }
+        while (!in.hasNextDouble()) {
+            System.out.print("Invalid gender. Enter again: ");
+            in.next();
         }
 
-        return gender;
+        return in.nextInt();
     }
 
     public double readAlcohol() {
         System.out.print("How many ounces of alcohol have you consumed? ");
+
+        // User can only enter numbers
+        while (!in.hasNextDouble()) {
+            System.out.print("Invalid alcohol amount. Enter again: ");
+            in.next();
+        }
+
         return in.nextDouble();
     }
 
     public double readTime() {
         System.out.print("How many hours has it been since your last drink? ");
+
+        // User can only enter numbers
+        while (!in.hasNextDouble()) {
+            System.out.print("Invalid amount of time. Enter again: ");
+            in.next();
+        }
+
         return in.nextDouble();
     }
 
     public double calculateBAC(double weight, int gender, double alcohol, double time) {
-        double r = gender == 1 ? MALE : FEMALE;
+        double r = gender == 3 ? MALE : FEMALE;
         return (alcohol * FORMULA_CONSTANT / weight * r) - (FORMULA_CONSTANT_TWO * time);
     }
 
     public String generateOutput(double bac) {
-        String str1 = String.format("Your BAC is %.2f\n", bac);
+        String str1 = String.format("Your BAC is %.6f\n", bac);
         return bac >= BAC_LIMIT ? str1 + "It is not legal for you to drive." : str1 + "It is legal for you to drive.";
     }
 
